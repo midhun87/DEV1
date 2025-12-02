@@ -9,7 +9,9 @@ app.secret_key = 'your_secret_key'
 
 # Initialize DynamoDB resource with IAM User credentials
 # REPLACE 'YOUR_ACCESS_KEY_ID' and 'YOUR_SECRET_ACCESS_KEY' with your actual keys
-
+AWS_ACCESS_KEY = 'AKIA6BKVS6KWIE7WLONG'
+AWS_SECRET_KEY = 'LCKZnNDDrUKbyvv60plyPseoer/Z+SsRxVQmchCl'
+AWS_REGION = 'ap-south-1'
 
 # Define DynamoDB tables
 user_table = dynamodb.Table('UserTable')
@@ -397,4 +399,5 @@ def logout():
 
 # Run the Flask app
 if __name__ == '__main__':
+
     app.run(host='0.0.0.0', port=80,debug=True)
