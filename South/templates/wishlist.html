@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('static/images/th1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .wishlist-container {
+            background: transparent;
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 900px;
+        }
+        h1 { text-align: center; color: #333; }
+        .wishlist-item {
+            padding: 15px;
+            border: 0px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: transparent;
+            margin-bottom: 10px;
+        }
+        .item-details { display: flex; align-items: center; }
+        .item-image { width: 300px; height: 300px; margin-right: 15px; border-radius: 5px; }
+        .item-name { font-size: 18px; color: #333; }
+        .remove-btn, .buy-btn {
+            background-color: #ff4c4c;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .remove-btn:hover { background-color: #ff1a1a; }
+        .buy-btn {
+            background-color: #28a745;
+        }
+        .buy-btn:hover { background-color: #218838; }
+        .back-btn {
+            margin-top: 20px;
+            background-color: #171f25;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .back-btn:hover { background-color: #556979; }
+    </style>
+</head>
+<body>
+    <div class="wishlist-container">
+        <h1>Your Wishlist</h1>
+        <ul id="wishlist-items">
+            <!-- JavaScript will dynamically populate wishlist items here -->
+        </ul>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <button class="back-btn" onclick="window.location.href='/user_dashboard'">Back to Dashboard</button>
+
+<script>
+    // Fetch wishlist data from the backend
+    fetch('/wishlist_data')
+        .then(response => response.json())
+        .then(data => {
+            const wishlistItems = data.wishlist;
+            const wishlistContainer = document.getElementById('wishlist-items');
+
+            if (wishlistItems.length === 0) {
+                wishlistContainer.innerHTML = '<p>Your wishlist is empty. Add items from the virtual exhibition!</p>';
+            } else {
+                wishlistItems.forEach(item => {
+                    const uniqueItemString = item.item_id || item.item_name;
+                    const imageSrc = item.item_image || '/static/images/default.jpg';
+                    const itemDetails = item.item_details || 'No details provided';
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'wishlist-item';
+
+                    listItem.innerHTML = `
+                        <div class="item-details">
+                            <img src="${imageSrc}" alt="${item.item_name || 'Item'}" class="item-image">
+                            <div>
+                                <span class="item-name">${item.item_name}</span><br>
+                                <span class="item-details">${itemDetails}</span>
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromWishlist(this, '${item.item_id}')">Remove</button>
+                        <button class="buy-btn" onclick="buyItem('${item.item_id}')">Buy</button>
+                    `;
+
+                    wishlistContainer.appendChild(listItem);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching wishlist:', error));
+
+    // Function to remove an item from the wishlist
+    function removeFromWishlist(buttonElement, itemId) {
+        fetch('/remove_from_wishlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item_id: itemId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                buttonElement.parentElement.remove();
+            } else {
+                alert(`Failed to remove item: ${data.message}`);
+            }
+        })
+        .catch(error => console.error('Error removing item from wishlist:', error));
+    }
+
+    // Function to simulate item purchase
+  function buyItem(itemId) {
+    fetch('/add_to_checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Redirect to checkout after successful add
+            window.location.href = '/checkout';
+        } else {
+            alert(`Failed to add item to checkout: ${data.message}`);
+        }
+    })
+    .catch(error => console.error('Error adding item to checkout:', error));
+}
+
+</script>
+
+</body>
+</html>

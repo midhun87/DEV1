@@ -1,0 +1,227 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry Virtual Exhibition</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-image: url('static/images/th2.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .exhibition-container { 
+            background: transparent; 
+            padding: 20px; 
+            border-radius: 12px; 
+            width: 80%; 
+            max-width: 1000px; 
+            text-align: center; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #9ff111; 
+            font-size: 38px; 
+            margin-bottom: 20px; 
+        }
+        .main-buttons-container { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            margin-top: 30px; 
+        }
+        .category-button { 
+            background-color: gold; 
+            color: rgb(237, 26, 26); 
+            border: none; 
+            border-radius: 12px; 
+            padding: 30px 60px; 
+            margin: 15px; 
+            font-size: 24px; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease; 
+            width: 40%; 
+        }
+        .category-button:hover { 
+            background-color: transparent; 
+        }
+        .items-container { 
+            display: none; 
+            margin-top: 20px; 
+        }
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+        }
+        .exhibition-item { 
+            padding: 10px; 
+            border: transparent; 
+            border-radius: 8px; 
+            background-color: transparent; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .item-image { 
+            width: 600px; 
+            height: 600px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            margin-bottom: 10px; 
+        }
+        .item-details { 
+            margin-bottom: 10px; 
+            color: rgb(237, 26, 26);
+            font-size: 22px
+        }
+        .wishlist-btn { 
+            background-color: #28a745; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease; 
+        }
+        .wishlist-btn:hover { 
+            background-color: #218838; 
+        }
+        .back-btn { 
+            margin-top: 20px; 
+            background-color: #171f25; 
+            color: white; 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease; 
+        }
+        .back-btn:hover { 
+            background-color: #556979; 
+        }
+    </style>
+</head>
+<body>
+    <div class="exhibition-container">
+        <h1>Jewelry Virtual Exhibition</h1>
+        
+        <!-- Main Category Buttons -->
+        <div id="mainButtons" class="main-buttons-container">
+            <button class="category-button" onclick="showCategory('Kasu Mala')">Kasu Mala</button>
+            <button class="category-button" onclick="showCategory('Temple Jewelry')">Temple Jewelry</button>
+            <button class="category-button" onclick="showCategory('Jhumkas')">Jhumkas</button>
+            <button class="category-button" onclick="showCategory('Vanki')">Vanki</button>
+            <!-- Back to User Dashboard Button -->
+            <button class="back-btn" onclick="window.location.href='user_dashboard'">Back to Dashboard</button>
+        </div>
+
+        <!-- Jewelry Items Display Section -->
+        <div id="itemsContainer" class="items-container">
+            <div id="exhibitionList" class="grid-container"></div>
+            <button class="back-btn" onclick="showMainButtons()">Back to Categories</button>
+        </div>
+    </div>
+
+    <script>
+        // Jewelry items data for different categories with images
+        const jewelryItems = {
+           "Kasu Mala": [
+    { name: "Double Layer Kasu Mala", metal: "22K Gold", weight: "140g", price: "1,60,000 INR", image: "static/images/kasu1.jpg" },
+    { name: "Round Coin Kasu Mala", metal: "24K Gold", weight: "160g", price: "2,50,000 INR", image: "static/images/kasu2.jpg" },
+    { name: "Heavy Antique Kasu Mala", metal: "22K Gold", weight: "180g", price: "2,80,000 INR", image: "static/images/kasu3.png" },
+    { name: "Traditional Long Kasu Mala", metal: "24K Gold", weight: "150g", price: "2,20,000 INR", image: "static/images/kasu4.webp" },
+    { name: "Designer Kasu Mala", metal: "24K Gold", weight: "130g", price: "1,80,000 INR", image: "static/images/kasu5.jpg" }
+],
+
+"Temple Jewelry": [
+    { name: "Lakshmi Bridal Temple Necklace", metal: "18K Gold", weight: "200g", price: "3,50,000 INR", image: "static/images/tm1.jpg" },
+    { name: "Goddess Lakshmi Temple Set", metal: "18K Gold", weight: "180g", price: "3,20,000 INR", image: "static/images/tm2.jpg" },
+    { name: "Classic Temple Haram", metal: "18K Gold", weight: "150g", price: "2,80,000 INR", image: "static/images/tm3.webp" },
+    { name: "Heavy Bridal Temple Set", metal: "18K Gold", weight: "210g", price: "4,00,000 INR", image: "static/images/tm4.jpg" },
+    { name: "Temple Earrings with Pearls", metal: "18K Gold", weight: "70g", price: "1,50,000 INR", image: "static/images/tm5.jpg" }
+],
+
+"Jhumkas": [
+    { name: "Pearl Gold Jhumkas", metal: "22K Gold", weight: "90g", price: "1,20,000 INR", image: "static/images/jm1.webp" },
+    { name: "Traditional Kundan Jhumkas", metal: "22K Gold", weight: "85g", price: "1,30,000 INR", image: "static/images/jm2.jpg" },
+    { name: "Antique Pearl Jhumkas", metal: "22K Gold", weight: "100g", price: "1,50,000 INR", image: "static/images/jm3.webp" },
+    { name: "Handcrafted Jhumkas", metal: "22K Gold", weight: "95g", price: "1,25,000 INR", image: "static/images/jm4.jpg" },
+    { name: "Heavy Gold Jhumkas", metal: "22K Gold", weight: "110g", price: "1,70,000 INR", image: "static/images/jm5.jpg" }
+],
+
+"Vanki": [
+    { name: "Antique Emerald Vanki", metal: "18K Gold", weight: "130g", price: "1,80,000 INR", image: "static/images/vanki1.webp" },
+    { name: "Lakshmi Goddess Vanki", metal: "18K Gold", weight: "125g", price: "1,75,000 INR", image: "static/images/vanki2.webp" },
+    { name: "Royal Vanki Design", metal: "18K Gold", weight: "140g", price: "2,00,000 INR", image: "static/images/vanki3.jpg" },
+    { name: "Peacock Design Vanki", metal: "18K Gold", weight: "150g", price: "2,20,000 INR", image: "static/images/vanki4.jpg" },
+    { name: "Ruby Stone Vanki", metal: "22K Gold", weight: "160g", price: "2,50,000 INR", image: "static/images/vanki5.jpg" }
+]
+}
+
+
+        // Show items based on selected category
+        function showCategory(category) {
+            const exhibitionList = document.getElementById('exhibitionList');
+            exhibitionList.innerHTML = '';
+            jewelryItems[category].forEach(item => {
+                const listItem = document.createElement('div');
+                listItem.className = 'exhibition-item';
+                listItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-details">
+                        <span class="item-name">${item.name}</span><br>
+                        <strong>Metal:</strong> ${item.metal}<br>
+                        <strong>Weight:</strong> ${item.weight}<br>
+                        <strong>Price:</strong> ${item.price}
+                    </div>
+                    <button class="wishlist-btn" onclick='addToWishlist(${JSON.stringify(item)})'>Add to Wishlist</button>
+                `;
+                exhibitionList.appendChild(listItem);
+            });
+
+            document.getElementById('mainButtons').style.display = 'none';
+            document.getElementById('itemsContainer').style.display = 'block';
+        }
+
+        // Show main category buttons
+        function showMainButtons() {
+            document.getElementById('mainButtons').style.display = 'flex';
+            document.getElementById('itemsContainer').style.display = 'none';
+        }
+
+       
+        // Add item to wishlist using a POST request to the server
+        function addToWishlist(item) {
+            fetch('/virtual_exhibition', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item to your wishlist!');
+            });
+}
+
+
+
+    </script>
+</body>
+</html>

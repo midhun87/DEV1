@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Indian Wedding Jewelry</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f3e6e0; /* Soft off-white background */
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            background-color: #800000; /* Maroon background */
+            padding: 20px;
+            position: fixed; /* Fixed navbar */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #FFD700; /* Gold border */
+        }
+
+        .nav-button {
+            margin: 0 15px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #FFD700; /* Gold text */
+            background-color: #333333; /* Dark buttons */
+            border-radius: 5px;
+            border: 2px solid #FFD700; /* Gold border */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #FFD700; /* Gold background on hover */
+            color: #800000; /* Maroon text on hover */
+        }
+
+        .content {
+            text-align: center;
+            padding: 400px 50px;
+            background-image: url('static/images/jew7.jpg'); /* Adjusted to scale the image appropriately */
+            background-size: cover;
+            background-position: center;
+            color: #FFD700; /* Gold text */
+        }
+
+        .content h1 {
+            font-size: 60px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px #333333; /* Text shadow for visibility */
+        }
+
+        .content p {
+            font-size: 22px;
+            text-shadow: 1px 1px 4px #333333; /* Text shadow for readability */
+        }
+
+        .about-section, .contact-section {
+            margin: 20px auto;
+            padding: 400px 20px;
+            width: 80%;
+            background-color: #f4f4f4; /* Light gray background */
+            border: 2px solid #800000; /* Maroon border */
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section h2, .contact-section h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #800000; /* Maroon heading text */
+            border-bottom: 2px solid #FFD700; /* Gold underline */
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .about-section p, .contact-section p {
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #800000; /* Maroon background */
+            color: #FFD700; /* Gold text */
+            margin-top: 10px;
+            border-top: 3px solid #FFD700; /* Gold top border */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        main {
+            padding-top: 100px; /* Spacing for the fixed navbar */
+            padding-bottom: 60px; /* Spacing for the fixed footer */
+        }
+    </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fetch the login status from the Flask template variable
+        const loggedIn = "{{ logged_in | lower }}";  // Lowercase to handle boolean values correctly
+        const navbar = document.querySelector('.navbar');
+
+        // Create base navigation buttons dynamically
+        navbar.append(
+            createNavButton('Home', '/'),
+            createNavButton('About Us', '#about'),
+            createNavButton('Contact Us', '#contact')
+        );
+
+        // Conditionally render buttons based on the login status
+        if (loggedIn === 'true') {
+            // Show User Dashboard and Logout buttons if the user is logged in
+            const dashboardButton = createNavButton('User Dashboard', '/user_dashboard');
+            const logoutButton = createNavButton('Logout', '/logout');
+            navbar.append(dashboardButton, logoutButton);
+        } else {
+            // Show Login/Register button if the user is not logged in
+            const loginButton = createNavButton('Login/Register', '/login');
+            navbar.append(loginButton);
+        }
+    });
+
+    function createNavButton(text, link) {
+        const button = document.createElement('a');
+        button.className = 'nav-button';
+        button.innerText = text;
+        button.href = link;
+        return button;
+    }
+</script>
+
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <!-- Navigation buttons will be dynamically rendered here based on login status -->
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <h1>Welcome to South Indian Wedding Jewelry</h1>
+            <p>Discover the heritage and elegance of South Indian Jewelry.</p>
+        </div>
+
+        <section id="about" class="about-section">
+            <h2>About Us</h2>
+            <p>South Indian jewelry is renowned for its intricate designs and cultural significance. From temple jewelry adorned with deities to the elegant pieces worn by brides on their special day, every piece tells a story of tradition and craftsmanship.</p>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Feel free to reach out to us at <strong>contact@southindianjewelry.com</strong>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 South Indian Wedding Jewelry. All rights reserved.</p>
+    </footer>
+</body>
+</html>

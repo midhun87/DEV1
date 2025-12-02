@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: url('static/images/HP_Banner_Slider-3.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: rgb(228, 223, 213); 
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #800000; /* Maroon background */
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #FFD700; /* Gold border */
+        }
+
+        .navbar .welcome-note {
+            font-size: 24px;
+            color: #FFD700; /* Gold color for welcome text */
+            font-weight: bold;
+            margin-left: 15px;
+        }
+
+        .nav-button {
+            margin: 0 15px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #FFD700; /* Gold text */
+            background-color: #333333; /* Dark buttons */
+            border-radius: 5px;
+            border: 2px solid #FFD700; /* Gold border */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #FFD700; /* Gold background on hover */
+            color: #800000; /* Maroon text on hover */
+        }
+
+        .welcome-text { 
+            position: absolute; 
+            top: 120px; 
+            left: 50px; 
+            color: #090000; 
+            font-size: 32px; 
+            text-shadow: 1px 1px 2px #b30c0c; 
+        }
+
+        .content-right { 
+            position: absolute; 
+            top: 180px; 
+            right: 5px; 
+            width: 30%; 
+            padding: 30px; 
+            border-radius: 8px; 
+            background: transparent; 
+        }
+
+        .content-right h2 { 
+            color: gold; 
+            font-size: 24px; 
+            margin-top: 0; 
+        }
+
+        .content-right p { 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            color: #f1f1f1;
+        }
+
+        .highlighted-text { 
+            border-radius: 4px; 
+            padding: 5px; 
+            color: red;  
+            font-weight: bold; 
+            display: inline-block; 
+            font-size: 28px
+        }
+
+        .highlighted-area { 
+            background: rgb(19, 185, 19); /* Highlight background for messages */
+        }
+
+        main {
+            padding-top: 140px; /* Spacing for the fixed navbar */
+        }
+
+        /* New section for order and checkout */
+        .order-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .order-section h3 {
+            color: #FFD700;
+        }
+
+        .order-button {
+            background-color: #800000;
+            color: #FFD700;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .order-button:hover {
+            background-color: #FFD700;
+            color: #800000;
+        }
+
+        .offers {
+            margin-top: 50px;
+        }
+
+        .offers h2 {
+            color: #FFD700;
+        }
+
+        .offers p {
+            font-size: 18px;
+            color: #f1f1f1;
+        }
+
+        /* Mobile-responsive adjustments */
+        @media (max-width: 768px) {
+            .content-right {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .nav-button {
+                margin: 10px 0;
+            }
+
+            .order-button {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation Bar and Welcome Note -->
+    <header>
+        <div class="navbar">
+            <div class="welcome-note" id="welcomeNote">Welcome, User!</div> <!-- Welcome Note -->
+            <div>
+                <a href="/" class="nav-button">Home</a>
+                <a href="/#about" class="nav-button">About Us</a>
+                <a href="/#contact" class="nav-button">Contact Us</a>
+                <a href="/virtual_exhibition" class="nav-button">Virtual Exhibition</a>
+                <a href="/quiz" class="nav-button">Quiz</a>
+                <a href="/wishlist" class="nav-button">Wishlist</a>
+                <a href="/checkout" class="nav-button">Checkout</a>
+                <a href="/logout" class="nav-button">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Right Content Section -->
+        <div class="content-right" id="contentRightSection">
+            <div class="personalized-content">
+                <h2>Your Personalized Information</h2>
+                <p>Dear <span id="personalizedUsername">User</span>, explore exclusive bridal sets in our Virtual Exhibition and add your favorite pieces to your Wishlist!</p>
+            </div>
+
+            <!-- Offers Section -->
+            <div class="offers">
+                <h2>Exclusive Offers for You</h2>
+                <p id="quizResultNote" class="highlighted-area"></p> <!-- Message section with highlighted area -->
+                <p>Explore the Virtual Exhibition to browse exclusive bridal sets and access your Wishlist to view and manage your favorite jewelry pieces.</p>
+            </div>
+
+           
+        </div>
+    </main>
+
+    <script>
+        // Fetch the username and quiz result from localStorage and update the dashboard
+        const username = localStorage.getItem('username') || 'User';
+        document.getElementById('personalizedUsername').innerText = username;
+
+        // Update the welcome note in the header
+        document.getElementById('welcomeNote').innerText = `Welcome to Your Dashboard, ${username}!`;
+
+        // Fetch quiz result from localStorage
+        const quizResult = localStorage.getItem('quizResult');
+        const resultNote = document.getElementById('quizResultNote');
+
+        // Display appropriate message and highlight the area
+        if (quizResult && quizResult.includes('Congratulations')) {
+            resultNote.innerHTML = `<span class="highlighted-text">${quizResult}</span>`; // Show congratulatory message
+        } else {
+            resultNote.innerHTML = `<span class="highlighted-text">Complete the quiz to unlock more exclusive offers!</span>`; // Show default message
+        }
+    </script>
+</body>
+</html>

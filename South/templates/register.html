@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-image: url('static/images/th1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .register-container { background-color: Transparent; padding: 40px; border-radius: 10px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); width: 400px; text-align: center; }
+        h2 { color: #333333; margin-bottom: 30px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #333333; }
+        input[type="email"], input[type="text"], input[type="password"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #cccccc; border-radius: 5px; font-size: 16px; }
+        button[type="submit"] { background-color: #007BFF; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; }
+        button[type="submit"]:hover { background-color: #0056b3; }
+        a { color: #007BFF; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        p { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create a New Account</h2>
+        <form method="POST" onsubmit="storeUsername()">
+            <label for="email">Email:</label>
+            <input type="email" name="email" required><br><br>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required><br><br>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="/login">Login Here</a></p>
+    </div>
+
+    <!-- JavaScript to Store Username in LocalStorage -->
+    <script>
+        function storeUsername() {
+            const username = document.getElementById('username').value;
+            localStorage.setItem('username', username);
+        }
+    </script>
+</body>
+</html>

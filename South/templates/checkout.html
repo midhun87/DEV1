@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('static/images/th1.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .checkout-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: transparent;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .checkout-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .item-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            object-fit: cover;
+        }
+
+        .item-name {
+            font-size: 22px;
+            color: #333;
+        }
+
+        .quantity-input {
+            width: 50px;
+            padding: 5px;
+            border: 0px solid #ddd;
+            border-radius: 0px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 0px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        .coupon-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .coupon-section input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .coupon-section button {
+            padding: 8px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .coupon-section button:hover {
+            background-color: transparent;
+        }
+
+        .price-summary {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .summary-details {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .summary-details:last-child {
+            font-size: 20px;
+            color: #28a745;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .proceed-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .proceed-btn:hover {
+            background-color: #218838;
+        }
+
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <h1>Shopping Cart</h1>
+        <ul id="checkout-items"></ul>
+        
+        <!-- Summary Section -->
+        <div class="summary-details">
+            <span>Total:</span>
+            <span>₹<span id="final-price">0</span></span>
+            
+        </div>
+        <div class="coupon-section">
+            <input type="text" id="coupon-code" placeholder="Enter Coupon Code">
+            <button onclick="applyCoupon()">Apply Coupon</button>
+        </div>
+        <div class="summary-details">
+            <span>Discount:</span>
+            <span>- ₹<span id="discount">0</span></span>
+        </div>
+       
+
+        <div class="summary-details">
+            <span>Subtotal:</span>
+            <span>₹<span id="total-price">0</span></span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons-container">
+            <button class="proceed-btn" onclick="proceedToOrder()">Proceed to Checkout</button>
+            <button class="back-btn" onclick="window.location.href='/user_dashboard'">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        let checkoutItems = [];
+        let totalPrice = 0;
+    
+        // Fetch checkout items from the server
+        fetch('/checkout_items')
+            .then(response => response.json())
+            .then(data => {
+                checkoutItems = data.checkout_items;
+                const checkoutContainer = document.getElementById('checkout-items');
+    
+                if (checkoutItems.length === 0) {
+                    checkoutContainer.innerHTML = '<p>Your checkout is empty. Add items from your wishlist!</p>';
+                } else {
+                    totalPrice = 0; // Reset total price
+                    checkoutItems.forEach(item => {
+                        const price = parseInt(item.price.replace(/,/g, ''));
+                        const itemTotalPrice = price * item.quantity; // Include quantity in calculation
+                        totalPrice += itemTotalPrice;
+    
+                        const listItem = document.createElement('li');
+                        listItem.className = 'checkout-item';
+                        listItem.innerHTML = `
+                            <div class="item-details">
+                                <img src="${item.image}" alt="${item.name}" class="item-image">
+                                <span class="item-name">${item.name} - ${item.metal} - ${item.weight} - ₹${item.price}</span>
+                                <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantity('${item.name}', this.value)">
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCheckout(this, '${item.name}')">Remove</button>
+                        `;
+                        checkoutContainer.appendChild(listItem);
+                    });
+    
+                    document.getElementById('total-price').textContent = totalPrice.toLocaleString();
+                    document.getElementById('final-price').textContent = totalPrice.toLocaleString();
+                }
+            })
+            .catch(error => console.error('Error fetching checkout items:', error));
+    
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-code').value;
+            fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'apply_coupon', coupon_code: couponCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('total-price').textContent = data.total_price.toLocaleString();
+                    document.getElementById('discount').textContent = data.discount.toLocaleString();
+                    document.getElementById('final-price').textContent = data.final_price.toLocaleString();
+                } else {
+                    alert('Invalid coupon code!');
+                }
+            })
+            .catch(error => console.error('Error applying coupon:', error));
+        }
+    
+        function updateQuantity(itemName, quantity) {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'update_quantity', item_name: itemName, quantity: parseInt(quantity) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('total-price').textContent = data.total_price.toLocaleString();
+                    document.getElementById('final-price').textContent = data.final_price.toLocaleString();
+                } else {
+                    alert('Failed to update quantity!');
+                }
+            })
+            .catch(error => console.error('Error updating quantity:', error));
+        }
+    
+        function removeFromCheckout(buttonElement, itemName) {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'remove', item_name: itemName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    buttonElement.parentElement.remove(); // Remove the item from the DOM
+                    document.getElementById('total-price').textContent = data.total_price.toLocaleString();
+                    document.getElementById('final-price').textContent = data.total_price.toLocaleString();
+                } else {
+                    alert('Failed to remove item!');
+                }
+            })
+            .catch(error => console.error('Error removing item:', error));
+        }
+    
+        function proceedToOrder() {
+            fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'finalize' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    alert('Failed to proceed to order!');
+                }
+            })
+            .catch(error => console.error('Error proceeding to order:', error));
+        }
+    </script>
+    
+</body>
+</html>

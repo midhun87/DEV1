@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Indian Wedding Jewelry Quiz</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/8d/Indian_brides_in_saree.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        .container {
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        h1, h2, p {
+            text-align: center;
+        }
+        .quiz-form {
+            margin-top: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+        }
+        .question h3 {
+            color: #ffd700;
+        }
+        .question label {
+            display: block;
+            margin: 10px 0;
+        }
+        .submit-btn, .back-btn {
+            display: block;
+            width: 100%;
+            background: #800000;
+            border: none;
+            padding: 15px;
+            font-size: 20px;
+            color: #ffd700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+        .submit-btn:hover, .back-btn:hover {
+            background: #cc0000;
+        }
+        .result {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 30px;
+        }
+        .result.success {
+            color: #32cd32;
+            font-weight: bold;
+        }
+        .result.fail {
+            color: #ff4500;
+            font-weight: bold;
+        }
+        .correct {
+            background: rgba(50, 205, 50, 0.4);
+        }
+        .incorrect {
+            background: rgba(255, 69, 0, 0.4);
+        }
+        .correct-answer {
+            color: #ffd700;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Jewelry Knowledge Quiz</h1>
+    <p>Answer all 15 questions and submit to see your score. If you score 10 or above, you win!</p>
+
+    <form class="quiz-form" id="quizForm">
+        <!-- Question 1 -->
+        <div class="question">
+            <h3>1. Which metal is traditionally used in South Indian wedding jewelry?</h3>
+            <label><input type="radio" name="q1" value="Gold"> Gold</label>
+            <label><input type="radio" name="q1" value="Silver"> Silver</label>
+            <label><input type="radio" name="q1" value="Copper"> Copper</label>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question">
+            <h3>2. Which stone is considered auspicious for South Indian brides?</h3>
+            <label><input type="radio" name="q2" value="Ruby"> Ruby</label>
+            <label><input type="radio" name="q2" value="Emerald"> Emerald</label>
+            <label><input type="radio" name="q2" value="Pearl"> Pearl</label>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question">
+            <h3>3. What is Kundan jewelry known for?</h3>
+            <label><input type="radio" name="q3" value="Use of uncut stones"> Use of uncut stones</label>
+            <label><input type="radio" name="q3" value="Gold Polishing"> Gold Polishing</label>
+            <label><input type="radio" name="q3" value="Temple Jewelry Design"> Temple Jewelry Design</label>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question">
+            <h3>4. What is the traditional design style of South Indian jewelry called?</h3>
+            <label><input type="radio" name="q4" value="Temple Jewelry"> Temple Jewelry</label>
+            <label><input type="radio" name="q4" value="Kundan Jewelry"> Kundan Jewelry</label>
+            <label><input type="radio" name="q4" value="Meenakari"> Meenakari</label>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question">
+            <h3>5. Which of these necklaces is a traditional bridal ornament?</h3>
+            <label><input type="radio" name="q5" value="Manga Malai"> Manga Malai</label>
+            <label><input type="radio" name="q5" value="Haram"> Haram</label>
+            <label><input type="radio" name="q5" value="Chandbali"> Chandbali</label>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question">
+            <h3>6. Which metal is considered auspicious for toe rings worn by married women?</h3>
+            <label><input type="radio" name="q6" value="Silver"> Silver</label>
+            <label><input type="radio" name="q6" value="Gold"> Gold</label>
+            <label><input type="radio" name="q6" value="Platinum"> Platinum</label>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question">
+            <h3>7. Which jewelry piece is traditionally worn on the wrist during weddings?</h3>
+            <label><input type="radio" name="q7" value="Bangles"> Bangles</label>
+            <label><input type="radio" name="q7" value="Armlets"> Armlets</label>
+            <label><input type="radio" name="q7" value="Anklets"> Anklets</label>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question">
+            <h3>8. What is a traditional necklace style with a row of pearls called?</h3>
+            <label><input type="radio" name="q8" value="Guttapusalu"> Guttapusalu</label>
+            <label><input type="radio" name="q8" value="Kasu Malai"> Kasu Malai</label>
+            <label><input type="radio" name="q8" value="Nethi Chutti"> Nethi Chutti</label>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question">
+            <h3>9. What is the most common metal used in South Indian temple jewelry?</h3>
+            <label><input type="radio" name="q9" value="Gold"> Gold</label>
+            <label><input type="radio" name="q9" value="Silver"> Silver</label>
+            <label><input type="radio" name="q9" value="Copper"> Copper</label>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question">
+            <h3>10. What is the name of a traditional short necklace worn by brides?</h3>
+            <label><input type="radio" name="q10" value="Choker"> Choker</label>
+            <label><input type="radio" name="q10" value="Long Haram"> Long Haram</label>
+            <label><input type="radio" name="q10" value="Manga Malai"> Manga Malai</label>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question">
+            <h3>11. Which piece of jewelry is worn on the upper arm?</h3>
+            <label><input type="radio" name="q11" value="Vanki"> Vanki</label>
+            <label><input type="radio" name="q11" value="Bangles"> Bangles</label>
+            <label><input type="radio" name="q11" value="Anklets"> Anklets</label>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question">
+            <h3>12. What is a traditional waist ornament called?</h3>
+            <label><input type="radio" name="q12" value="Ottiyanam"> Ottiyanam</label>
+            <label><input type="radio" name="q12" value="Guttapusalu"> Guttapusalu</label>
+            <label><input type="radio" name="q12" value="Chandbali"> Chandbali</label>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="question">
+            <h3>13. Which type of earring design is common in South Indian jewelry?</h3>
+            <label><input type="radio" name="q13" value="Chandbali"> Chandbali</label>
+            <label><input type="radio" name="q13" value="Studs"> Studs</label>
+            <label><input type="radio" name="q13" value="Jhumkas"> Jhumkas</label>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="question">
+            <h3>14. What is the primary material used in making a Vanki?</h3>
+            <label><input type="radio" name="q14" value="Gold"> Gold</label>
+            <label><input type="radio" name="q14" value="Silver"> Silver</label>
+            <label><input type="radio" name="q14" value="Copper"> Copper</label>
+        </div>
+
+        <!-- Question 15 -->
+        <div class="question">
+            <h3>15. What is the name of a traditional South Indian necklace worn by brides?</h3>
+            <label><input type="radio" name="q15" value="Manga Malai"> Manga Malai</label>
+            <label><input type="radio" name="q15" value="Kundan"> Kundan</label>
+            <label><input type="radio" name="q15" value="Jadau"> Jadau</label>
+        </div>
+
+        <!-- Submit Button -->
+
+        <button type="button" class="submit-btn" id="submitBtn" onclick="checkQuiz()">Submit</button>
+        <a href="user_dashboard" class="back-btn">Back</a>
+    </form>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    function checkQuiz() {
+        const correctAnswers = ["Gold", "Ruby", "Use of uncut stones", "Temple Jewelry", "Manga Malai", "Silver", "Bangles", "Guttapusalu", "Gold", "Choker", "Vanki", "Ottiyanam", "Chandbali", "Gold", "Manga Malai"];
+        
+        let score = 0;
+        let totalQuestions = 15;
+        document.getElementById('submitBtn').disabled = true;
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            let userAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+            let questionDiv = document.querySelectorAll('.question')[i - 1];
+
+            if (userAnswer) {
+                if (userAnswer.value === correctAnswers[i - 1]) {
+                    score += 1;
+                    questionDiv.classList.add('correct');
+                } else {
+                    questionDiv.classList.add('incorrect');
+                    let correctLabel = document.createElement('p');
+                    correctLabel.className = "correct-answer";
+                    correctLabel.innerHTML = `Correct Answer: ${correctAnswers[i - 1]}`;
+                    userAnswer.parentNode.appendChild(correctLabel);
+                }
+            } else {
+                questionDiv.classList.add('incorrect');
+                let correctLabel = document.createElement('p');
+                correctLabel.className = "correct-answer";
+                correctLabel.innerHTML = `Correct Answer: ${correctAnswers[i - 1]}`;
+                questionDiv.appendChild(correctLabel);
+            }
+        }
+
+        let resultDiv = document.getElementById('result');
+        
+    if (score === 10) {
+    resultDiv.innerHTML = `Congratulations! You scored ${score} out of ${totalQuestions}. You have won a 10% discount at our stores, Use Coupon 'WON10'!`;
+    resultDiv.className = "result success";
+    localStorage.setItem('quizResult', 'Congratulations! You won a 10% discount.');
+} else if (score >= 11 && score <= 12) {
+    resultDiv.innerHTML = `Congratulations! You scored ${score} out of ${totalQuestions}. You have won a 20% discount at our stores, Use Coupon 'WON20'!`;
+    resultDiv.className = "result success";
+    localStorage.setItem('quizResult', 'Congratulations! You won a 20% discount.');
+} else if (score > 12) {
+    resultDiv.innerHTML = `Congratulations! You scored ${score} out of ${totalQuestions}. You have won a 30% discount at our stores, Use Coupon 'WON30'!`;
+    resultDiv.className = "result success";
+    localStorage.setItem('quizResult', 'Congratulations! You won a 30% discount.');
+} else {
+    resultDiv.innerHTML = `You scored ${score} out of ${totalQuestions}. Sorry, better luck next time!`;
+    resultDiv.className = "result fail";
+    localStorage.setItem('quizResult', 'Complete the quiz to unlock more exclusive offers!');
+}
+
+    }
+</script>
+
+</body>
+</html>
+
+
+   
+       
